@@ -20,12 +20,18 @@ OUTCOME_SCORES = {
 
 def calculate_score(opponent: str, you: str) -> int:
     score = SHAPE_SCORES[you]
+
+    # Draw
     if SHAPE_SCORES[opponent] == SHAPE_SCORES[you]:
         score += OUTCOME_SCORES["DRAW"]
+
+    # Win
     if SHAPE_SCORES[opponent] < SHAPE_SCORES[you] or (
         SHAPE_SCORES[you] == 1 and SHAPE_SCORES[opponent] == NUM_SHAPES
     ):
         score += OUTCOME_SCORES["WIN"]
+
+    # Loss
     if SHAPE_SCORES[opponent] > SHAPE_SCORES[you] or (
         SHAPE_SCORES[you] == NUM_SHAPES and SHAPE_SCORES[opponent] == 1
     ):
@@ -39,6 +45,6 @@ def calculate_total_score(input_file: str) -> int:
         total_score = 0
         for line in lines:
             inputs = line.split(" ")
-            score = calculate_score(inputs[0], inputs[1])
+            score = calculate_score(inputs[0], inputs[1].strip())
             total_score += score
     return total_score
